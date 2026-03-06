@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile.gateway
+    volumes:
+      - ./gateway:/app/gateway
+      - ./config.yaml:/app/config.yaml
+      - ./logs:/app/logs
+      - ./.env:/app/.env
+    environment:
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD}
+    depends_on:
+      - ai_engine
+      - security_checks
+
+  ai_engine:
+    build:
+      context: .
+      dockerfile: Dockerfile.ai_engine
+    volumes:
+      - ./ai_engine:/app/ai_engine
+      - ./config.yaml:/app/config.yaml
+    command: python ai_engine/model_loader.py
+
+  security_checks:
+    build:
+      context: .
+      dockerfile: Dockerfile.security_checks
+    volumes:
+      - ./security_checks:/app/security_checks
+      - ./config.yaml:/app/config.yaml
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.dashboard
+    volumes:
+      - ./dashboard:/app/dashboard
+      - ./logs:/app/logs
+      - ./config.yaml:/app/config.yaml
+    ports:
+      - "8501:8501"
+    command: streamlit run dashboard/app.py
+

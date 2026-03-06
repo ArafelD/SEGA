@@ -1,0 +1,20 @@
+email_server:
+  imap_server: imap.example.com
+  smtp_server: smtp.example.com
+  port: 993
+  username: your_email@example.com
+  password_env_var: EMAIL_PASSWORD
+  quarantine_folder: Quarentena
+
+security_checks:
+  spf_dkim_enabled: True
+  phishing_detection_enabled: True
+  attachment_scan_enabled: True
+  url_analysis_enabled: True
+
+logging:
+  log_file: logs/email_logs.json
+  log_level: INFO
+
+model:
+  phishing_model_path: ai_engine/phishing_model.pkl

@@ -1,0 +1,8 @@
+python-dotenv
+imaplib
+email
+dnspython
+dkimpy
+scikit-learn
+pandas
+streamlit
